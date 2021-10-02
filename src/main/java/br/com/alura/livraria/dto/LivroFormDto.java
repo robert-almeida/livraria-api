@@ -7,6 +7,8 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.PastOrPresent;
 import javax.validation.constraints.Size;
 
+import com.fasterxml.jackson.annotation.JsonAlias;
+
 import lombok.Getter;
 import lombok.Setter;
 
@@ -24,5 +26,6 @@ public class LivroFormDto {
 	@Min(100)
 	private int numeroPaginas;
 	
-	private AutorFormDto autor;
+	@JsonAlias("autor_id")
+	private Long autorId;
 }
