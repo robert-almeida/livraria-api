@@ -25,7 +25,7 @@ import lombok.ToString;
 public class Livro {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long Id;
+	private Long id;
 	private String titulo;
 	private LocalDate dataLancamento;
 	private Integer numeroPaginas;

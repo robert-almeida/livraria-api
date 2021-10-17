@@ -24,7 +24,7 @@ import lombok.ToString;
 public class Autor {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long Id;
+	private Long id;
 	private String nome;
 	private String email;
 	private LocalDate dataNascimento;
