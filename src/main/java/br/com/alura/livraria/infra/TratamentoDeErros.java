@@ -11,8 +11,10 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.web.servlet.NoHandlerFoundException;
 
 import br.com.alura.livraria.dto.Erro400Dto;
+import br.com.alura.livraria.dto.Erro404Dto;
 import br.com.alura.livraria.dto.Erro500Dto;
 
 @RestControllerAdvice
@@ -25,6 +27,12 @@ public class TratamentoDeErros {
 				.collect(Collectors.toList());
 	}
 
+	@ExceptionHandler(NoHandlerFoundException.class)
+	@ResponseStatus(code = HttpStatus.NOT_FOUND)
+	public Erro404Dto tratarErro404(NoHandlerFoundException ex, HttpServletRequest req) {
+		return new Erro404Dto(LocalDateTime.now(), "Página não encontrada", req.getRequestURI());
+	}
+	
 	@ExceptionHandler(Exception.class)
 	@ResponseStatus(code = HttpStatus.INTERNAL_SERVER_ERROR)
 	public Erro500Dto tratarErro500(Exception ex, HttpServletRequest req) {
