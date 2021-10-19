@@ -8,6 +8,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import br.com.alura.livraria.dto.AutorDto;
@@ -28,6 +29,8 @@ class AutorServiceTest {
 		AutorFormDto formDto = new AutorFormDto("Fulano", "fulano@email.com", LocalDate.now(), "minicurriculo do fulano de teste");
 
 		AutorDto dto = service.cadastrar(formDto);
+		
+		Mockito.verify(repository).save(Mockito.any());
 
 		assertEquals(formDto.getNome(), dto.getNome());
 		assertEquals(formDto.getEmail(), dto.getEmail());
