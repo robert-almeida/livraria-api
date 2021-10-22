@@ -28,10 +28,10 @@ public class SpringFoxSwaggerConfigurations {
     private ApiInfo apiInfo() {
         return new ApiInfo(
           "API Livraria", 
-          "Teste", 
+          "Ralmeida", 
           "Termos de uso", 
           "Termos de serviço", 
-          new Contact("Ralmeida", "www.example.com", "myeaddress@company.com"), 
+          new Contact("Ralmeida", "www.ralmeida.com", "ralmeida@company.com"), 
           "License of API", "API license URL", Collections.emptyList());
     }  
 	

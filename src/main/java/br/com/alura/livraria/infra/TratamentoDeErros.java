@@ -4,17 +4,17 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import javax.persistence.EntityNotFoundException;
 import javax.servlet.http.HttpServletRequest;
 
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
-import org.springframework.web.servlet.NoHandlerFoundException;
 
 import br.com.alura.livraria.dto.Erro400Dto;
-import br.com.alura.livraria.dto.Erro404Dto;
 import br.com.alura.livraria.dto.Erro500Dto;
 
 @RestControllerAdvice
@@ -27,10 +27,9 @@ public class TratamentoDeErros {
 				.collect(Collectors.toList());
 	}
 
-	@ExceptionHandler(NoHandlerFoundException.class)
+	@ExceptionHandler({EntityNotFoundException.class, EmptyResultDataAccessException.class})
 	@ResponseStatus(code = HttpStatus.NOT_FOUND)
-	public Erro404Dto tratarErro404(NoHandlerFoundException ex, HttpServletRequest req) {
-		return new Erro404Dto(LocalDateTime.now(), "Página não encontrada", req.getRequestURI());
+	public void tratarErro404() {
 	}
 	
 	@ExceptionHandler(Exception.class)

@@ -9,6 +9,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import br.com.alura.livraria.dto.AtualizacaoLivroFormDto;
 import br.com.alura.livraria.dto.LivroDto;
 import br.com.alura.livraria.dto.LivroFormDto;
 import br.com.alura.livraria.modelo.Autor;
@@ -47,5 +48,23 @@ public class LivroService {
 		} catch (EntityNotFoundException e) {
 			throw new IllegalArgumentException("Autor inexistente!");
 		}
+	}
+
+	@Transactional
+	public LivroDto atualizar(AtualizacaoLivroFormDto dto) {
+		Livro livro = livroRepository.getById(dto.getId());
+		
+		livro.atualizarInformacoes(dto.getTitulo(), dto.getDataLancamento(), dto.getNumeroPaginas());
+		return modelMapper.map(livro, LivroDto.class);
+	}
+
+	@Transactional
+	public void excluir(Long id) {
+		livroRepository.deleteById(id);
+	}
+
+	public LivroDto detalhar(Long id) {
+		Livro livro = livroRepository.findById(id).orElseThrow(() -> new EntityNotFoundException());
+		return modelMapper.map(livro, LivroDto.class);
 	}
 }
