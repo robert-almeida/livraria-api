@@ -13,9 +13,12 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.modelmapper.ModelMapper;
 
 import br.com.alura.livraria.dto.LivroDto;
 import br.com.alura.livraria.dto.LivroFormDto;
+import br.com.alura.livraria.modelo.Autor;
+import br.com.alura.livraria.modelo.Livro;
 import br.com.alura.livraria.repository.AutorRepository;
 import br.com.alura.livraria.repository.LivroRepository;
 
@@ -27,6 +30,9 @@ class LivroServiceTest {
 
 	@Mock
 	private AutorRepository autorRepository;
+	
+	@Mock
+	private ModelMapper modelMapper;
 
 	@InjectMocks
 	private LivroService service;
@@ -39,7 +45,28 @@ class LivroServiceTest {
 	@Test
 	void deveriaCadastrarUmLivro() {
 		LivroFormDto formDto = criarLivroFormDto();
-
+		
+		Autor autor = new Autor("Teste", "teste@email.com", LocalDate.now().minusYears(20), "Teste");
+		
+		Mockito
+		.when(autorRepository.getById(formDto.getAutorId()))
+		.thenReturn(autor);
+		
+		Livro livro = new Livro(formDto.getTitulo(), formDto.getDataLancamento(), formDto.getNumeroPaginas(), autor);
+		
+		Mockito
+		.when(modelMapper.map(formDto, Livro.class))
+		.thenReturn(livro);
+		
+		Mockito
+		.when(modelMapper.map(livro, LivroDto.class))
+		.thenReturn(new LivroDto(
+				null,
+				livro.getTitulo(),
+				livro.getDataLancamento(),
+				livro.getNumeroPaginas()
+				));
+	
 		LivroDto dto = service.cadastrar(formDto);
 		
 		Mockito.verify(repository).save(Mockito.any());
