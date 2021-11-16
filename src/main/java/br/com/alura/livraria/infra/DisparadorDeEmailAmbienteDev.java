@@ -5,7 +5,7 @@ import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
 @Service
-@Profile("dev")
+@Profile({"default","test"})
 public class DisparadorDeEmailAmbienteDev implements DisparadorDeEmail{
 	
 	@Async
